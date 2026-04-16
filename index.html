@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>Fluttershy Runner</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
@@ -16,6 +17,20 @@
     background: #ff8ac2;
     font-family: 'Press Start 2P', monospace;
     color: #3d1a2d;
+    padding: 20px;
+    overflow: hidden;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .game-wrapper {
+    width: 800px;
+    transform-origin: top center;
+  }
+  @media (max-width: 840px) {
+    body { padding: 10px; }
+    h1 { font-size: 18px !important; }
+    .info { font-size: 8px !important; }
   }
   h1 {
     color: #fff;
@@ -170,8 +185,9 @@
 </style>
 </head>
 <body>
+  <div class="game-wrapper" id="wrapper">
   <h1>FLUTTERSHY RUNNER</h1>
-  <div class="info">ПРОБЕЛ = ПРЫЖОК</div>
+  <div class="info" id="hint">ПРОБЕЛ = ПРЫЖОК</div>
 
   <div class="game" id="game">
     <div class="cloud" id="cloud1"></div>
@@ -184,8 +200,9 @@
     <div id="score">0</div>
     <div id="message">
       <div id="message-text"></div>
-      <div class="hint">ПРОБЕЛ = ЗАНОВО</div>
+      <div class="hint" id="restart-hint">ПРОБЕЛ = ЗАНОВО</div>
     </div>
+  </div>
   </div>
 
 <script>
@@ -253,6 +270,27 @@
       jump();
     }
   });
+  document.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    jump();
+  }, { passive: false });
+
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouch) {
+    document.getElementById('hint').textContent = 'ТАП = ПРЫЖОК';
+    document.getElementById('restart-hint').textContent = 'ТАП = ЗАНОВО';
+  }
+
+  function scaleGame() {
+    const wrapper = document.getElementById('wrapper');
+    const maxWidth = window.innerWidth - 20;
+    const scale = Math.min(1, maxWidth / 800);
+    wrapper.style.transform = `scale(${scale})`;
+    document.body.style.height = (wrapper.offsetHeight * scale + 40) + 'px';
+  }
+  window.addEventListener('resize', scaleGame);
+  window.addEventListener('orientationchange', scaleGame);
+  scaleGame();
 
   function spawnObstacle() {
     const obs = document.createElement('div');
