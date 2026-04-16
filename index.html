@@ -58,12 +58,12 @@
       linear-gradient(#fff, #fff) 0 16px / 80px 8px no-repeat,
       linear-gradient(#fff, #fff) 8px 24px / 64px 8px no-repeat;
   }
-  #cloud1 { top: 24px; left: 100px; width: 80px; height: 32px; animation: drift 20s linear infinite; }
-  #cloud2 { top: 56px; left: 400px; width: 80px; height: 32px; animation: drift 25s linear infinite; }
-  #cloud3 { top: 16px; left: 620px; width: 80px; height: 32px; animation: drift 30s linear infinite; }
+  #cloud1 { top: 24px; width: 80px; height: 32px; animation: drift 18s linear infinite; }
+  #cloud2 { top: 56px; width: 80px; height: 32px; animation: drift 24s linear infinite; animation-delay: -8s; }
+  #cloud3 { top: 16px; width: 80px; height: 32px; animation: drift 30s linear infinite; animation-delay: -18s; }
   @keyframes drift {
-    from { transform: translateX(0); }
-    to { transform: translateX(-920px); }
+    from { transform: translateX(820px); }
+    to { transform: translateX(-100px); }
   }
   .ground {
     position: absolute;
